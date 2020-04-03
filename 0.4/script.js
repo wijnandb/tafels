@@ -2,21 +2,6 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-$(function(){
-	if (SpeechRecognition) {
-		$(".warnings")
-			.html("Cool!  Your browser supports speech recognition.  Have fun!");
-	} else {
-		$(".warnings")
-			.addClass("unsupported")
-			.html("Sorry... Your browser doesn't support speech recognition yet.");
-	}
-});
-
-
-
-
-
 var phrasePara = document.querySelector('.phrase');
 var resultPara = document.querySelector('.result');
 //var diagnosticPara = document.querySelector('.output');
