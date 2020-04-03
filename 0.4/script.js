@@ -37,8 +37,8 @@ function testSpeech() {
   testBtn.disabled = true;
   testBtn.textContent = '';
 
-  times = Math.floor(Math.random() * 9) + 2;
-  toMult = Math.floor(Math.random() * 9) + 2;
+  times = Math.floor(Math.random() * 10) + 1;
+  toMult = Math.floor(Math.random() * 10) + 1;
   var somvakje = document.getElementById(+ times + '.' + toMult);
   var phrase = times*toMult;
   phrasePara.textContent = "Hoeveel is " + times +  " x " + toMult + " ?";
@@ -82,11 +82,6 @@ function testSpeech() {
     }
 
     console.log('Zekerheid: ' + event.results[0][0].confidence);
-    if (aantal_sommen > 9) {
-      recognition.stop();
-      testBtn.disabled = false;
-      testBtn.textContent = 'Nog een keertje?';
-    }
   }
 
   recognition.onspeechend = function() {
