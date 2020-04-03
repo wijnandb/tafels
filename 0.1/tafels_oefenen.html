@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Tafels oefenen</title>
+<style type="text/css">
+span.correct {
+    color: blue;
+}
+span.wrong {
+    color: red;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Tafels oefenen</h2>
+  <div id="ready"></div>
+  <div id="quiz"></div>
+  <input type="text" id="answer" value=""></input>
+  <div id="feedback"></div>
+  <button id="subBtn">Opnieuw beginnen</button>
+  <div id="result"></div>
+<div id="log"> </div>
+</div>
+
+<script>
+var score = 0;
+var counter = 0;
+var answer = document.getElementById('answer');
+var subBtn = document.getElementById('subBtn');
+var result = document.getElementById('result');
+var feedback = document.getElementById('feedback');
+var quiz = document.getElementById('quiz');
+var rayanswer = "";
+var answers = "";
+var arr1 = [2,3,4,5,6,7,8,9,10]; 
+var times;
+var toMult;
+var promptText = "<i>Press Enter to check answer,<br />Start Over to clear results, or<br />q to quit and show score</i>";
+
+subBtn.addEventListener("click", function() {
+    startOver();
+});
+
+answer.addEventListener("keydown", function (e) {
+    if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+        evaluateAnswer();
+    }
+});
+
+function showQuestion() {
+    answer.value = "";
+    feedback.innerHTML = promptText;
+    times = arr1[Math.floor(Math.random() * arr1.length)];              
+    toMult = Math.floor(Math.random() * 9) + 2;
+    quiz.innerHTML= "What is " + times +  " x " + toMult + " ?";
+}
+
+function evaluateAnswer() {
+    var response;
+    var entry = answer.value;
+    if (entry == "q") {
+        quitQuiz(); 
+        exit(0);
+    }
+
+    rayanswer = parseInt(entry);
+    if (rayanswer == "" || rayanswer == "undefined" || rayanswer == null) {
+        feedback.innerHTML = "Please enter an answer or q to quit";
+    } else if (isNaN(rayanswer)) {
+        feedback.innerHTML = "Please enter a number for your answer or q to quit";
+    //here the next question should load after pressing enter and input box has to be blank again
+    } else if (rayanswer == times * Number(toMult)) {
+        score++;
+        counter++;
+        response ="<span class='correct'>Goed: " + times + " x " + toMult + " = " + rayanswer + "!</span>";
+    } else {
+        response ="<span class='wrong'>Fout: " + times + " x " + toMult + " != " + rayanswer + ", het is " + times * toMult + "</span>";
+        counter++;
+    }
+    answers = response + "<br />" + answers;
+    result.innerHTML = answers;
+    answer.value = "";
+    showQuestion();
+}
+
+function startOver() {
+    result.innerHTML = "";
+    counter = 0;
+    score = 0;
+    answer.value = "";
+    answer.focus();
+    answers = "";
+    showQuestion();
+}
+
+function quitQuiz() {
+    var output = "Score: " + score + " out of " + counter + ", or " + Math.round(score / counter * 100) + "%";
+    if (counter > 0) {
+        if (score / counter > 0.8) {
+             output += " Good work"; 
+        } else {
+             output += " Keep trying"; 
+        }
+        result.innerHTML = output + "<br />" + result.innerHTML;
+    } else {
+        result.innerHTML = "You haven't tried yet.";
+        answer.value = "";
+    }
+}
+
+showQuestion();
+</script>
+</body>
+</html>
