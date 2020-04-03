@@ -76,10 +76,8 @@ function testSpeech() {
   //  recognition.stop();
   //  testBtn.disabled = false;
   //  testBtn.textContent = 'Start new test';
-  // hierdoor wordt nieuw woord gevraagd, toegevoegd als alternatief
-  if (aantal_sommen < 10) {
     testSpeech()
-    }
+
   }
 
   recognition.onerror = function(event) {
