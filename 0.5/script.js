@@ -2,6 +2,17 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
+$(function(){
+	if (SpeechRecognition) {
+		$(".warnings")
+			.html("Cool!  Your browser supports speech recognition.  Have fun!");
+	} else {
+		$(".warnings")
+			.addClass("unsupported")
+			.html("Sorry... Your browser doesn't support speech recognition yet.");
+	}
+});
+
 var phrasePara = document.querySelector('.phrase');
 var resultPara = document.querySelector('.result');
 //var diagnosticPara = document.querySelector('.output');
@@ -57,15 +68,16 @@ function testSpeech() {
     document.getElementById("total").innerHTML = aantal_sommen;
     if(parseInt(speechResult, 10) === phrase) {
       resultPara.textContent = speechResult;
-      setColor(somvakje, 'lawngreen');
+      tafels[times][toMult] = tafels[times][toMult] + 1;
+      setColor(somvakje, tafels[times][toMult]);
       aantal_goed = aantal_goed + 1;
       document.getElementById("correct").innerHTML = aantal_goed;
     } else {
-      setColor(somvakje, 'red');
+      tafels[times][toMult] = tafels[times][toMult] - 1;
+      setColor(somvakje, tafels[times][toMult]);
       aantal_fout = aantal_fout + 1;
       document.getElementById("wrong").innerHTML = aantal_fout;
     }
-
     console.log('Zekerheid: ' + event.results[0][0].confidence);
   }
 
@@ -82,7 +94,7 @@ function testSpeech() {
   recognition.onerror = function(event) {
     testBtn.disabled = false;
     testBtn.textContent = 'Start new test';
-//    diagnosticPara.textContent = 'Fout in spraakherkenning: ' + event.error;
+    diagnosticPara.textContent = 'Fout in spraakherkenning: ' + event.error;
   }
   
   recognition.onaudiostart = function(event) {
@@ -127,8 +139,25 @@ function testSpeech() {
 
 testBtn.addEventListener('click', testSpeech);
 
-function setColor(element, color)
+var colors = ["red", "orange", "yellow", "lightgrey", "lawngreen", "green"]
+
+function setColor(element, stage)
 {
-    element.style.backgroundColor = color;
+    element.style.backgroundColor = colors[stage];
 }
+
+
+var tafels = [
+  ["score van alle tafels"],
+  ["tafel van 1", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 2", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 3", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 4", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 5", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 6", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 7", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 8", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 9", 3,3,3,3,3,3,3,3,3,3],
+  ["tafel van 10", 3,3,3,3,3,3,3,3,3,3],
+]
 
